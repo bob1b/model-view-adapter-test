@@ -1,0 +1,2 @@
+.graphComponent { display:inline-block; width:300px; height:150px; border:1px solid #000; }
+.graphComponent + { width:300px; height:150px; border:1px solid #000; }

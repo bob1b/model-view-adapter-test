@@ -1,0 +1,3 @@
+.onOffComponent { display:inline-block; width:100px; height:150px; border:1px solid #000; text-align:center; }
+.onOffComponent.state_true { background-color:#000; color:#fff; }
+.onOffComponent.state_false { background-color:#fff; color:#000; }

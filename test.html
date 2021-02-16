@@ -1,0 +1,140 @@
+<html>
+  <head>
+    <style>
+      body { padding:20px 20px 50px 20px; font-family:"arial", "sans-serif"; }
+      h1 { font-weight:normal; letter-spacing:0.05em; }
+      h2 { font-weight:normal; letter-spacing:0.05em; }
+      li { margin-bottom:10px; line-height:1.4em; }
+      article { position:relative; overflow:hidden; }
+      #c0, #c1, #c2, #c3, #c4, #c5, #c6, #c7, #c8, #c9 {
+        position:relative; display:inline-block; float:left; margin:2px; 
+      }
+    </style>
+
+    <script src="mva.js"></script>
+
+    <!-- include script and styling for simple OnOff component (simple!) -->
+    <script src="./components/onOff/onOff.js"></script>
+    <link  href="./components/onOff/style.css" rel="stylesheet">
+
+    <!-- include script and styling for flot.js graph component -->
+    <script src="./jquery.flot.js"></script>
+    <script src="./components/graph/graph.js"></script>
+    <link  href="./components/graph/style.css" rel="stylesheet">
+
+    <!-- include script and styling for flot.js sideways bar graph component -->
+    <script src="./jquery.flot.js"></script>
+    <script src="./components/sidewaysBarGraph/sidewaysBarGraph.js"></script>
+    <link  href="./components/sidewaysBarGraph/style.css" rel="stylesheet">
+
+    <!-- include script and styling for video component -->
+    <script src="./components/video/video.js"></script>
+    <link  href="./components/video/style.css" rel="stylesheet">
+
+     <!-- TODO - programmatic script and link tags for components at runtime -->
+  </head>
+
+  <body>
+    <header>
+      <h1>MVA (model-view-adapter) test</h1>
+    </header>
+    <article> 
+
+      <h2>Why?</h2>
+      <p>
+        I created this model-view-adapter test while learning ReactJS, as an experimental simpler
+        method to achieve similar functionality (managed, isolated front end components). I wanted to
+        avoid needing lots of boilerplate when creating simple components. This project is still "in progress".
+      </p>
+
+      <h2>Definitions</h2>
+      <ul>
+        <li><b>Component</b> - GUI elements can be separated into individual components
+            which are managed by this MVA library. Doing so is intended to simplify
+            and standardize how each component is run and written</li>
+        <li><b>MVA</b> - using the <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93adapter"
+            target="_blank" title="model-view-adapter">MVA</a>
+            each component has these three abstracted parts
+          <ul>
+            <li><b>Model</b> - the state of the app (object/dictionary of values)</li>
+            <li><b>View</b> - how the component is rendered (template or rendering function).
+                              Also includes the destination of the rendered output</li>
+            <li><b>Adapter</b> - how the model interacts with the view and vice-versa (state change
+              affects the view, view events/triggers affecting the state)</li>
+          </ul>
+        </li>
+      </ul>
+
+      <br />
+      <h2>Concepts - what is the point of MVA-lib?</h2>
+      <ul>
+        <li><b>Simplicity and Readability</b> - Readability is important for code quality. Easily-read
+          code is far easier to maintain, even if a few lines could be saved by cramming lots of
+          functionality into a single line.
+          <ul>
+            <li>Do not create a ton of boilerplate in order to abstract components. If the boilerplate
+              makes the code harder to read, then just stay with the old, simple code.</li>
+            <li>Don't spread related code across a huge directory tree where it will be time consuming
+              to find what connects to what</li>
+            <li>Adding unnecessary complexity is evil</li>
+          </ul>
+        </li>
+        <li><b>Performance</b>
+          <ul>
+            <li>For the sake of performance, the browser should parse CSS, not JavaScript. Use
+              namespacing and reset stylesheets to avoid conflicts in large projects. If necessary,
+              namespacing component styling can be done by something like webpack prior to deployment
+              if it's feasible and necessary.</li>
+            <li>Programmatically creating thousands of extra DOM nodes during runtime will bring many
+              browsers to a halt. Don't do it</li>
+            <li>Get things done and move on. Complicating a dev/prod environment will add huge cost
+                to a project</li>
+          </ul>
+        </li>
+       </ul>
+    </article>
+
+    <h2> Demo </h2>
+    <article>
+      <p>These four different components are managed by this simple MVA lib</p>
+      <div id="c0"></div>
+      <div id="c1" class="graphComponent"></div>
+      <div id="c2" class="sidewaysGraphComponent"></div>
+      <div id="c3"></div>
+    </article>
+
+
+    <script>
+// TODO - css conflicts between components: how to manage them, namespacing is enough?
+// TODO - can components have their styling override really aggressive base stylesheets
+/* TODO - files:
+             - stylesheet
+             - .js: model, adapter
+             - .html: template */
+/* TODO - how to connect the multiple files (perhaps one directory per component, but can import
+          everything from a higher level easily, but can import everything from a higher level easily) */
+
+
+      // initialize mva controller
+      var mva = new MVA( { watchTimeout:15000 } );
+
+      // construct the setup for a new component, pass options to the constructor 
+      // to set things like view destination element
+      var onOffConstructor0 = new OnOff( { destination:"#c0" } );
+      var graphConstructor1 = new graphComponent( { destination:"#c1" } );
+      var sidewaysBarGraphConstructor2 = new sidewaysBarGraphComponent( { destination:"#c2" } );
+      var videoConstructor3 = new videoComponent( { destination:"#c3" } );
+
+
+      // add the component to the MVA controller
+      var component0 = mva.addComponent( onOffConstructor0 );
+      var component1 = mva.addComponent( graphConstructor1 );
+      var component2 = mva.addComponent( sidewaysBarGraphConstructor2 );
+      var component3 = mva.addComponent( videoConstructor3 );
+
+    </script>
+
+    <footer>
+    </footer>
+  </body>
+</html>
